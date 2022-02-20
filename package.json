@@ -1,0 +1,24 @@
+{
+  "name": "@pansy/sworkspace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "强大的印章组件，帮你快速的生成印章。",
+  "main": "index.js",
+  "scripts": {
+    "start": "dumi dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pansyjs/seal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pansyjs/seal/issues"
+  },
+  "homepage": "https://github.com/pansyjs/seal#readme",
+  "devDependencies": {
+    "dumi": "^1.1.38",
+    "typescript": "^4.5.5"
+  }
+}
