@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://ant.design">
-    <img width="200" src="https://cdn.jsdelivr.net/gh/wangxingkang/pictures@latest/imgs/20210427184129.svg">
+    <img width="200" src="https://cdn.jsdelivr.net/gh/wangxingkang/pictures@latest/imgs/seal.svg">
   </a>
 </p>
 
@@ -36,6 +36,10 @@ seal.update({ ... });
 // 销毁印章
 seal.destroy();
 ```
+
+## API
+
+||||
 
 ## 🌟 社区互助
 

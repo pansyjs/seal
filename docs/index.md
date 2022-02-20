@@ -3,8 +3,8 @@ title: 介绍 - Watermark
 order: 10
 sidebar: false
 hero:
-  title: Watermark
-  desc: 强大的水印组件，助你快速的给网页添加水印。
+  title: Pany Seal
+  desc: 强大的印章组件，帮您快速的生成印章。
   actions:
     - text: 快速开始 →
       link: /guide/getting-started
