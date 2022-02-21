@@ -36,21 +36,24 @@ seal.update({ ... });
 // 销毁印章
 seal.destroy();
 ```
-
-## API
+s## API
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-|type| 印章类型，主要公司印章和个人印章 | `company` \| `personal` |`company`|
-|shape| 指定头像的形状，仅当公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
-|width|指定头像的宽度|`number`|`200`|
-|height|指定头像的宽度|`number`|`200`|
-|fiveStar|是否显示中间的五角星|`boolean`|`true`|
-|name|公司名称或者个人姓名|`string`|-|
-|title|是否显示中间的五角星|`boolean`|`true`|
+| type | 印章类型，主要公司印章和个人印章 | `company` \| `personal` |`company`|
+| shape | 指定印章的形状，仅公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
+| width | 指定印章的宽度 | `number` | `200` |
+| height | 指定印章的宽度 | `number` | `200` |
+| fiveStar | 是否显示中间的五角星 | `boolean` | `true` |
+| text | 主文字 | `string` |-|
+| subText | 副文字 | `string` | `true` |
+| border | 边线配置 | `` | - |
+| innerBorder | 内边线配置 | `` | - |
+| innerBorder | 内环线配置 | `` | - |
 
 ## 🌟 社区互助
 
 | Github Issue                                                 | 钉钉群                                                                                     | 微信群                                                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
 | [issues](https://github.com/pansyjs/watermark/issues) | <img src="https://github.com/alitajs/alita/blob/master/public/dingding.png" width="100" /> | <img src="https://github.com/alitajs/alita/blob/master/public/wechat.png" width="100" /> |
+
