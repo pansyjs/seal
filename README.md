@@ -41,9 +41,7 @@ seal.destroy();
 
 印章包含以下内容
 
-<p align="center">
-<img height="300" src="https://cdn.jsdelivr.net/gh/wangxingkang/pictures@latest/imgs/seal.png">
-</p>
+<img src="https://cdn.jsdelivr.net/gh/wangxingkang/pictures@latest/imgs/seal.png">
 
 ## 🧑‍💻 API
 
@@ -52,13 +50,14 @@ seal.destroy();
 | type | 印章类型，分为公司印章、个人印章 | `company` \| `personal` |`company`|
 | shape | 指定印章的形状，仅公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
 | width | 指定印章的宽度 | `number` | `200` |
-| height | 指定印章的宽度 | `number` | `200` |
-| fiveStar | 是否显示中间的五角星 | `boolean` | `true` |
-| text | 主文字 | `string` |-|
-| subText | 副文字 | `string` | `true` |
-| border | 边线配置 | `` | - |
-| innerBorder | 内边线配置 | `` | - |
-| innerBorder | 内环线配置 | `` | - |
+| height | 指定印章的高度 | `number` | `200` |
+| fiveStar | 五角星配置 | `any` | - |
+| text | 主文字配置 | `any` |-|
+| subText | 副文字配置 | `any` | - |
+| centerText | 中心文字配置 | `any` | - |
+| border | 边线配置 | `any` | - |
+| innerBorder | 内边线配置 | `any` | - |
+| innerLoopLine | 内环线配置 | `any` | - |
 
 ## 🌟 社区互助
 
