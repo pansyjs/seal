@@ -36,11 +36,20 @@ seal.update({ ... });
 // 销毁印章
 seal.destroy();
 ```
-s## API
+
+## 📸 印章概览
+
+印章包含以下内容
+
+<p align="center">
+<img height="300" src="https://cdn.jsdelivr.net/gh/wangxingkang/pictures@latest/imgs/seal.png">
+</p>
+
+## 🧑‍💻 API
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-| type | 印章类型，主要公司印章和个人印章 | `company` \| `personal` |`company`|
+| type | 印章类型，分为公司印章、个人印章 | `company` \| `personal` |`company`|
 | shape | 指定印章的形状，仅公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
 | width | 指定印章的宽度 | `number` | `200` |
 | height | 指定印章的宽度 | `number` | `200` |
