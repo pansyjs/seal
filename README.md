@@ -49,8 +49,9 @@ seal.destroy();
 |---|---|---|---|
 | type | 印章类型，分为公司印章、个人印章 | `company` \| `personal` |`company`|
 | shape | 指定印章的形状，仅公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
-| width | 指定印章的宽度 | `number` | `200` |
-| height | 指定印章的高度 | `number` | `200` |
+| color | 印章颜色，各分部的颜色可单独指定 | `string` | `red` |
+| width | 指定印章的宽度 | `number` | `300` |
+| height | 指定印章的高度 | `number` | `300` |
 | fiveStar | 五角星配置 | `any` | - |
 | text | 主文字配置 | `any` |-|
 | subText | 副文字配置 | `any` | - |
