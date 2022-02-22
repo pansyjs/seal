@@ -5,7 +5,8 @@
   "description": "强大的印章组件，帮你快速的生成印章。",
   "main": "index.js",
   "scripts": {
-    "start": "dumi dev"
+    "start": "dumi dev",
+    "site": "dumi build"
   },
   "repository": {
     "type": "git",
