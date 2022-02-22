@@ -66,12 +66,12 @@ export interface Options {
    */
   fiveStar?: FiveStar;
   /**
-   * 印章宽度
+   * 画布宽度
    * @default 300
    */
   width?: number;
   /**
-   * 印章高度
+   * 画布高度
    * @default 300
    */
   height?: number;

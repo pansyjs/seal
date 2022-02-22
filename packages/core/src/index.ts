@@ -20,6 +20,8 @@ export class Seal {
   private options: Options;
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
+  /** 画板的中心点 */
+  private centerPoint: [number, number];
 
   private borderOpts: Required<BorderOptions>;
   private innerLoopLineOpts: Required<BorderOptions>;
@@ -32,52 +34,71 @@ export class Seal {
   constructor(container: HTMLElement, opts: Options) {
     const canvas = document.createElement('canvas');
 
-    const options = Object.assign({}, defaultOpts, opts);
+    const {
+      options,
+      borderOpts,
+      innerBorderOpts,
+      innerLoopLineOpts,
+      fiveStarOpts,
+      textOpts,
+    } = this.resolveConfig(opts);
 
     canvas.width = options.width ?? defaultOpts.width;
     canvas.height = options.height ?? defaultOpts.height;
 
     container.appendChild(canvas);
 
-    const context = canvas.getContext('2d') as CanvasRenderingContext2D;
-
     this.canvas = canvas;
-    this.context = context;
+    this.context = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+    this.centerPoint = [
+      canvas.width / 2,
+      canvas.height / 2,
+    ]
+
     this.options = options;
-
-    this.borderOpts = Object.assign({}, {
-      ...defaultBorderOpts,
-      color: options.color,
-      shape: options.shape,
-    }, opts?.border);
-
-    this.innerBorderOpts = Object.assign({}, {
-      ...defaultInnerBorderOpts,
-      color: options.color,
-      shape: options.shape,
-    }, opts?.border);
-
-    this.innerLoopLineOpts = Object.assign({}, {
-      ...defaultInnerLoopLineOpts,
-      color: options.color,
-      shape: options.shape,
-    }, opts?.border);
-
-    this.fiveStarOpts = Object.assign({}, {
-      ...defaultFiveStarOpts,
-      color: options.color,
-    }, opts?.border);
-
-    this.textOpts = Object.assign({}, {
-      ...defaultTextOpts,
-      color: options.color,
-    }, opts?.text);
+    this.borderOpts = borderOpts;
+    this.innerBorderOpts = innerBorderOpts;
+    this.innerLoopLineOpts = innerLoopLineOpts;
+    this.fiveStarOpts = fiveStarOpts;
+    this.textOpts = textOpts;
 
     this.render();
   }
 
+  update(opts: Options) {
+    const {
+      options,
+      borderOpts,
+      innerBorderOpts,
+      innerLoopLineOpts,
+      fiveStarOpts,
+      textOpts,
+    } = this.resolveConfig(opts, false);
+
+    this.options = options;
+    this.borderOpts = borderOpts;
+    this.innerBorderOpts = innerBorderOpts;
+    this.innerLoopLineOpts = innerLoopLineOpts;
+    this.fiveStarOpts = fiveStarOpts;
+    this.textOpts = textOpts;
+
+    this.render();
+  }
+
+  /**
+   * 绘制印章
+   */
   render() {
-    this.drawTransparentBg();
+    /** 重置画布 */
+    this.canvas.width = this.canvas.width;
+
+    /** 绘制透明背景 */
+    this.context.putImageData(
+      getTransparentData(this.canvas.width, this.canvas.height, this.context),
+      0,
+      0
+    );
 
     this.drawBorder(this.borderOpts);
     this.drawInnerBorder(this.innerBorderOpts);
@@ -141,7 +162,7 @@ export class Seal {
     this.context.save();
     this.context.fillStyle = opts.color;
 
-    this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+    this.context.translate(...this.centerPoint);
     this.context.rotate(Math.PI);
     this.context.beginPath();
 
@@ -168,7 +189,7 @@ export class Seal {
     this.context.font = `bold ${opts.fontSize}px serif`;
     this.context.fillStyle = opts.color;
 
-    this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+    this.context.translate(...this.centerPoint);
 
     const count = opts.text.length;
 
@@ -197,8 +218,8 @@ export class Seal {
     {
       radius,
       circleCenter = {
-        x: this.canvas.width / 2,
-        y: this.canvas.width / 2,
+        x: this.centerPoint[0],
+        y: this.centerPoint[1],
       }
     }: DrawCircleOptions
   ) {
@@ -212,9 +233,49 @@ export class Seal {
   }
 
   /**
-   * 绘制透明背景
+   * 解析配置
+   * @param opts
+   * @param useDefault
+   * @returns
    */
-  drawTransparentBg() {
-    this.context.putImageData(getTransparentData(this.canvas.width, this.canvas.height, this.context), 0, 0);
+  resolveConfig(opts: Options, useDefault: boolean = true) {
+    const options = Object.assign({}, defaultOpts, opts);
+
+    const borderOpts = Object.assign({}, {
+      ...(useDefault ? defaultBorderOpts : this.borderOpts),
+      color: options.color,
+      shape: options.shape,
+    }, opts?.border);
+
+    const innerBorderOpts = Object.assign({}, {
+      ...(useDefault ? defaultInnerBorderOpts: this.innerBorderOpts),
+      color: options.color,
+      shape: options.shape,
+    }, opts?.innerBorder);
+
+    const innerLoopLineOpts = Object.assign({}, {
+      ...(useDefault ? defaultInnerLoopLineOpts : this.innerLoopLineOpts),
+      color: options.color,
+      shape: options.shape,
+    }, opts?.innerLoopLine);
+
+    const fiveStarOpts = Object.assign({}, {
+      ...(useDefault ? defaultFiveStarOpts: this.fiveStarOpts),
+      color: options.color,
+    }, opts?.fiveStar);
+
+    const textOpts = Object.assign({}, {
+      ...(useDefault ? defaultTextOpts : this.textOpts),
+      color: options.color,
+    }, opts?.text);
+
+    return {
+      options,
+      borderOpts,
+      innerBorderOpts,
+      innerLoopLineOpts,
+      fiveStarOpts,
+      textOpts,
+    }
   }
 }
