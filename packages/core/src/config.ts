@@ -22,7 +22,7 @@ export const defaultInnerBorderOpts = {
 
 
 export const defaultInnerLoopLineOpts = {
-  visible: true,
+  visible: false,
   width: 2,
 }
 
