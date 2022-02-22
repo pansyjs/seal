@@ -1,0 +1,14 @@
+{
+  "extends": "./base-config.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pansy/sela": [
+        "./packages/core/*"
+      ],
+      "@pansy/react-sela": [
+        "./packages/react/*"
+      ],
+    }
+  }
+}
