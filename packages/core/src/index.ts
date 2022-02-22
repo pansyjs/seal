@@ -160,7 +160,9 @@ export class Seal {
     if (!opts.visible) return;
 
     this.context.save();
+    this.context.lineWidth = 1;
     this.context.fillStyle = opts.color;
+    this.context.strokeStyle = opts.color;
 
     this.context.translate(...this.centerPoint);
     this.context.rotate(Math.PI);
