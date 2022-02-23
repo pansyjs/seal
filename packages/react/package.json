@@ -1,6 +1,6 @@
 {
   "name": "@pansy/react-seal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "强大的印章组件，帮你快速的生成印章。",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
@@ -19,7 +19,7 @@
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
-    "@pansy/seal": "0.1.0"
+    "@pansy/seal": "0.1.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
