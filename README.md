@@ -10,6 +10,8 @@
   强大的印章组件，帮你快速的生成印章。
 </div>
 
+<br />
+
 <div align="center">
 
 [![npm version][npm-v-image]][npm-url] 
@@ -63,6 +65,7 @@ seal.destroy();
 | type | 印章类型，分为公司印章、个人印章 | `company` \| `personal` |`company`|
 | shape | 指定印章的形状，仅公司印章有效 | `circle` \| `square`\| `ellipse` | `circle` |
 | color | 印章颜色，各分部的颜色可单独指定 | `string` | `red` |
+| showTransparent | 是否显示透明背景, 下载时请隐藏 | `boolean` | `true` |
 | width | 指定印章的宽度 | `number` | `300` |
 | height | 指定印章的高度 | `number` | `300` |
 | fiveStar | 五角星配置 | `any` | - |
