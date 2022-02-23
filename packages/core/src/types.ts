@@ -66,6 +66,10 @@ export interface Options {
    */
   color?: string;
   /**
+   * 显示透明背景
+   */
+  showTransparent?: boolean;
+  /**
    * 五角星配置
    */
   fiveStar?: FiveStar;

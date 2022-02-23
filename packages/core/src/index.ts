@@ -17,7 +17,7 @@ import type {
 } from './types';
 
 export class Seal {
-  // private options: Options;
+  private options: Options;
   private canvas: HTMLCanvasElement | undefined;
   private context: CanvasRenderingContext2D | undefined;
   /** 画板的中心点 */
@@ -56,7 +56,7 @@ export class Seal {
       canvas.height / 2,
     ]
 
-    // this.options = options;
+    this.options = options;
     this.borderOpts = borderOpts;
     this.innerBorderOpts = innerBorderOpts;
     this.innerLoopLineOpts = innerLoopLineOpts;
@@ -68,7 +68,7 @@ export class Seal {
 
   update(opts: Options) {
     const {
-      // options,
+      options,
       borderOpts,
       innerBorderOpts,
       innerLoopLineOpts,
@@ -76,7 +76,7 @@ export class Seal {
       textOpts,
     } = this.resolveConfig(opts, false);
 
-    // this.options = options;
+    this.options = options;
     this.borderOpts = borderOpts;
     this.innerBorderOpts = innerBorderOpts;
     this.innerLoopLineOpts = innerLoopLineOpts;
@@ -94,12 +94,14 @@ export class Seal {
     /** 重置画布 */
     this.canvas.width = this.canvas.width;
 
-    /** 绘制透明背景 */
-    this.context.putImageData(
-      getTransparentData(this.canvas.width, this.canvas.height, this.context),
-      0,
-      0
-    );
+    if (this.options.showTransparent) {
+      /** 绘制透明背景 */
+      this.context.putImageData(
+        getTransparentData(this.canvas.width, this.canvas.height, this.context),
+        0,
+        0
+      );
+    }
 
     this.drawBorder(this.borderOpts);
     this.drawInnerBorder(this.innerBorderOpts);
@@ -110,15 +112,51 @@ export class Seal {
     this.writeText(this.textOpts);
   }
 
+  /**
+   * 销毁印章
+   */
   destroy() {
     this.canvas = undefined;
     this.context = undefined;
   }
 
   /**
+   * 获取印章Base64，支持下载文件
+   * @returns
+   */
+  toBase64(download: boolean = true) {
+    if (!this.canvas) return;
+    const base64 = this.canvas.toDataURL();
+
+    if (download) {
+      const fileName = `seal_${Math.random().toString(36).slice(-6)}`;
+
+      // @ts-ignore
+      if (window.navigator.msSaveOrOpenBlob) {
+        const bstr = atob(base64.split(',')[1])
+        let len = bstr.length
+        const u8arr = new Uint8Array(len)
+        while (len--) {
+          u8arr[len] = bstr.charCodeAt(len)
+        }
+        const blob = new Blob([u8arr]);
+        // @ts-ignore
+        window.navigator.msSaveOrOpenBlob(blob, fileName + '.png')
+      } else {
+        const a = document.createElement('a')
+        a.href = base64;
+        a.setAttribute('download', fileName)
+        a.click();
+      }
+    }
+
+    return base64;
+  }
+
+  /**
    * 绘制边线
    */
-  drawBorder(opts: Required<BorderOptions>) {
+  private drawBorder(opts: Required<BorderOptions>) {
     if (!opts.visible) return;
     this.drawCircle(opts.width, opts.color, {
       radius: 140,
