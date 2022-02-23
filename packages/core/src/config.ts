@@ -1,7 +1,3 @@
-import type {
-  TextOptions,
-} from './types';
-
 export const defaultOpts = {
   type: 'company',
   shape: 'circle',
@@ -29,10 +25,12 @@ export const defaultInnerLoopLineOpts = {
 
 export const defaultFiveStarOpts = {
   visible: true,
+  size: 30
 }
 
 export const defaultTextOpts = {
   visible: true,
   fontSize: 28,
-  text: '超级无敌爱国创新科技有限公司'
-} as Required<TextOptions>;
+  fontWeight: 500,
+  radius: 100
+};

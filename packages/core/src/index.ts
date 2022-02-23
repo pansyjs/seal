@@ -147,7 +147,7 @@ export class Seal {
    * @returns
    */
   writeText(opts: Required<TextOptions>) {
-    if (!opts.visible) return;
+    if (!opts.visible || !opts.text) return;
 
     this.writeSurroundText(opts);
   }
@@ -173,7 +173,7 @@ export class Seal {
     for (let i = 0; i < 5; i++) {
       const x = Math.sin(i * dig);
       const y = Math.cos(i * dig);
-      this.context.lineTo(x * 30, y * 30);
+      this.context.lineTo(x * opts.size, y * opts.size);
     }
 
     this.context.closePath();
@@ -187,8 +187,7 @@ export class Seal {
    * @param opts
    */
   writeSurroundText(opts: Required<TextOptions>) {
-
-    this.context.font = `bold ${opts.fontSize}px serif`;
+    this.context.font = `normal normal ${opts.fontWeight} ${opts.fontSize}px serif`;
     this.context.fillStyle = opts.color;
 
     this.context.translate(...this.centerPoint);
@@ -197,6 +196,8 @@ export class Seal {
 
     const angle = -4 * Math.PI / (3 * (count - 1));
 
+    console.log(angle);
+
     const chars = opts.text.split('').reverse();
 
     for (let i = 0; i < count; i++){
@@ -204,7 +205,7 @@ export class Seal {
 
       this.context.rotate(i === 0 ? (0.7 * Math.PI / 6.1): angle);
       this.context.save();
-      this.context.translate(95, 0);
+      this.context.translate(opts.radius, 0);
       this.context.rotate(Math.PI / 2);
       this.context.fillText(char, 0, 5);
       this.context.restore();
@@ -269,7 +270,7 @@ export class Seal {
     const textOpts = Object.assign({}, {
       ...(useDefault ? defaultTextOpts : this.textOpts),
       color: options.color,
-    }, opts?.text);
+    }, opts?.text) as Required<TextOptions>;
 
     return {
       options,

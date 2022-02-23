@@ -9,6 +9,8 @@ export interface TextOptions {
   fontWeight?: string | number;
   /** 文案 */
   text?: string;
+  /** 环绕文案半径 */
+  radius?: number;
 }
 
 export interface BorderOptions {
@@ -30,6 +32,8 @@ export interface FiveStar {
   visible?: boolean;
   /** 填充色，默认取 options.color */
   color: string;
+  /** 大小 */
+  size?: number;
 }
 
 export type SealType = 'company' | 'personal';
