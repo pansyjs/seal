@@ -16,6 +16,7 @@ importers:
       '@walrus/plugin-release': 1.14.3
       '@walrus/plugin-test': 1.1.0
       antd: ^4.18.8
+      dayjs: ^1.10.7
       dumi: ^1.1.38
       lerna: 4.0.0
       react: 17.0.2
@@ -35,6 +36,7 @@ importers:
       '@walrus/plugin-release': 1.14.3_@walrus+cli@1.3.4
       '@walrus/plugin-test': 1.1.0
       antd: 4.18.8_react-dom@17.0.2+react@17.0.2
+      dayjs: 1.10.7
       dumi: 1.1.38_3a6359ff0dae16692fd6f0778ea71593
       lerna: 4.0.0
       react: 17.0.2
