@@ -3,7 +3,7 @@
  * inline: true
  */
 import { useRef, useState, useEffect } from 'react';
-import { Button, Alert } from 'antd';
+import { Button, Alert, Space } from 'antd';
 import Card from '@ant-design/pro-card';
 import ProForm, {
   ProFormText,
@@ -34,6 +34,7 @@ const initialValues = {
   color: 'red',
   width: 300,
   height: 300,
+  showTransparent: true,
   border: {
     visible: true,
     color: 'red',
@@ -121,6 +122,12 @@ export default () => {
     setOptions(values);
   }
 
+  const handleDownload = () => {
+    if (!sealRef.current) return;
+
+    sealRef.current.toBase64();
+  }
+
   return (
     <div className={styles.main}>
       <Alert message="注意！注意！注意！本库只为个人研究学习所用，请勿用于违法相关！" type="error" />
@@ -131,7 +138,12 @@ export default () => {
         </Card>
         <Card
           title="配置面板"
-          extra={<Button type="link" size="small">拷贝配置</Button>}
+          extra={
+            <Space>
+              <Button type="link" size="small" onClick={handleDownload}>下载印章</Button>
+              <Button type="link" size="small">拷贝配置</Button>
+            </Space>
+          }
           bodyStyle={{
             overflow: 'auto',
             height: 'calc(100vh - 310px)',
@@ -157,6 +169,11 @@ export default () => {
                 label="印章形状"
                 name="shape"
                 valueEnum={sealShapeEnum}
+              />
+
+              <ProFormSwitch
+                label="显示透明背景"
+                name="showTransparent"
               />
 
               <ProFormColorPicker
