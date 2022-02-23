@@ -11,6 +11,16 @@
 </div>
 
 <div align="center">
+
+[![npm version][npm-v-image]][npm-url] 
+[![npm download][download-image]][download-url] 
+[![stars-image][stars-image]][stars-url] 
+[![forks-image][forks-image]][forks-url] 
+[![packagephobia][packagephobia-image]][packagephobia-url] 
+  
+</div> 
+
+<div>
   注意！注意！注意！本库只为个人研究学习所用，请勿用于违法相关！
 </div>
 
@@ -67,5 +77,18 @@ seal.destroy();
 
 | Github Issue                                                 | 钉钉群                                                                                     | 微信群                                                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [issues](https://github.com/pansyjs/watermark/issues) | <img src="https://github.com/alitajs/alita/blob/master/public/dingding.png" width="100" /> | <img src="https://github.com/alitajs/alita/blob/master/public/wechat.png" width="100" /> |
+| [issues](https://github.com/pansyjs/seal/issues) | <img src="https://github.com/alitajs/alita/blob/master/public/dingding.png" width="100" /> | <img src="https://github.com/alitajs/alita/blob/master/public/wechat.png" width="100" /> |
 
+
+
+[npm-v-image]: https://img.shields.io/npm/v/@pansy/seal.svg
+[forks-image]: https://img.shields.io/github/forks/pansyjs/seal.svg
+[stars-image]: https://img.shields.io/github/stars/pansyjs/seal.svg
+[packagephobia-image]: https://packagephobia.com/badge?p=@pansy/seal
+[npm-url]: http://npmjs.org/package/@pansy/seal
+[github-url]: https://github.com/pansyjs/seal
+[stars-url]: https://github.com/pansyjs/seal/stargazers
+[forks-url]: https://github.com/pansyjs/seal/network/members
+[packagephobia-url]: https://packagephobia.com/result?p=@pansy/seal
+[download-image]: https://img.shields.io/npm/dm/@pansy/seal
+[download-url]: https://npmjs.org/package/@pansy/seal
