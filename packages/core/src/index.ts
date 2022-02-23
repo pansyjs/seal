@@ -17,9 +17,9 @@ import type {
 } from './types';
 
 export class Seal {
-  private options: Options;
-  private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D;
+  // private options: Options;
+  private canvas: HTMLCanvasElement | undefined;
+  private context: CanvasRenderingContext2D | undefined;
   /** 画板的中心点 */
   private centerPoint: [number, number];
 
@@ -56,7 +56,7 @@ export class Seal {
       canvas.height / 2,
     ]
 
-    this.options = options;
+    // this.options = options;
     this.borderOpts = borderOpts;
     this.innerBorderOpts = innerBorderOpts;
     this.innerLoopLineOpts = innerLoopLineOpts;
@@ -68,7 +68,7 @@ export class Seal {
 
   update(opts: Options) {
     const {
-      options,
+      // options,
       borderOpts,
       innerBorderOpts,
       innerLoopLineOpts,
@@ -76,7 +76,7 @@ export class Seal {
       textOpts,
     } = this.resolveConfig(opts, false);
 
-    this.options = options;
+    // this.options = options;
     this.borderOpts = borderOpts;
     this.innerBorderOpts = innerBorderOpts;
     this.innerLoopLineOpts = innerLoopLineOpts;
@@ -90,6 +90,7 @@ export class Seal {
    * 绘制印章
    */
   render() {
+    if (!this.canvas || !this.context) return;
     /** 重置画布 */
     this.canvas.width = this.canvas.width;
 
@@ -107,6 +108,11 @@ export class Seal {
     this.drawFiveStar(this.fiveStarOpts);
 
     this.writeText(this.textOpts);
+  }
+
+  destroy() {
+    this.canvas = undefined;
+    this.context = undefined;
   }
 
   /**
@@ -147,8 +153,6 @@ export class Seal {
    * @returns
    */
   writeText(opts: Required<TextOptions>) {
-    if (!opts.visible || !opts.text) return;
-
     this.writeSurroundText(opts);
   }
 
@@ -157,7 +161,7 @@ export class Seal {
    * @param opts
    */
   drawFiveStar(opts: Required<FiveStar>) {
-    if (!opts.visible) return;
+    if (!this.canvas || !this.context || !opts.visible) return;
 
     this.context.save();
     this.context.lineWidth = 1;
@@ -187,6 +191,8 @@ export class Seal {
    * @param opts
    */
   writeSurroundText(opts: Required<TextOptions>) {
+    if (!this.canvas || !this.context || !opts.visible || !opts.text) return;
+
     this.context.font = `normal normal ${opts.fontWeight} ${opts.fontSize}px serif`;
     this.context.fillStyle = opts.color;
 
@@ -226,6 +232,8 @@ export class Seal {
       }
     }: DrawCircleOptions
   ) {
+    if (!this.canvas || !this.context) return;
+
     this.context.translate(0, 0);
     this.context.lineWidth = width;
     this.context.strokeStyle = color;
@@ -282,3 +290,5 @@ export class Seal {
     }
   }
 }
+
+export type { Options } from './types';

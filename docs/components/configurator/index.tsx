@@ -12,7 +12,6 @@ import ProForm, {
   ProFormDigit,
   ProFormSwitch,
 } from '@ant-design/pro-form';
-// @ts-ignore
 import { Seal } from '@pansy/seal';
 import styles from './index.less';
 
@@ -70,7 +69,7 @@ const initialValues = {
 }
 
 export default () => {
-  const sealRef = useRef<typeof Seal>();
+  const sealRef = useRef<Seal>();
   const sealContainerRef = useRef<HTMLDivElement>(null);
 
   const formRef = useRef<ProFormInstance>();
