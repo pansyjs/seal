@@ -53,10 +53,15 @@ const initialValues = {
   fiveStar: {
     visible: true,
     color: 'red',
+    size: 30,
   },
   text: {
     visible: true,
     color: 'red',
+    text: '超级无敌爱国创新科技有限公司',
+    fontSize: 28,
+    fontWeight: 500,
+    radius: 100,
   },
   subText: {
     visible: true,
@@ -70,7 +75,7 @@ export default () => {
 
   const formRef = useRef<ProFormInstance>();
 
-  const [options, setOptions] = useState<Record<string, any>>({});
+  const [options, setOptions] = useState<Record<string, any>>(initialValues);
 
   useEffect(
     () => {
@@ -223,6 +228,12 @@ export default () => {
                 name={['fiveStar', 'color']}
                 label="颜色"
               />
+              <ProFormDigit
+                name={['fiveStar', 'size']}
+                label="大小"
+                min={20}
+                max={50}
+              />
             </ProForm.Group>
 
             <ProForm.Group title="主文字配置">
@@ -233,6 +244,29 @@ export default () => {
               <ProFormColorPicker
                 name={['text', 'color']}
                 label="颜色"
+              />
+
+              <ProFormDigit
+                name={['text', 'radius']}
+                label="半径"
+                min={10}
+              />
+
+              <ProFormText
+                name={['text', 'text']}
+                label="文案"
+              />
+
+              <ProFormDigit
+                name={['text', 'fontSize']}
+                label="字体大小"
+                min={10}
+              />
+
+              <ProFormDigit
+                name={['text', 'fontWeight']}
+                label="字体粗细"
+                min={300}
               />
             </ProForm.Group>
 
