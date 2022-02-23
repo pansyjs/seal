@@ -6,12 +6,14 @@ importers:
     specifiers:
       '@ant-design/pro-card': ^1.18.33
       '@ant-design/pro-form': ^1.54.0
+      '@umijs/plugin-antd': ^0.15.0
       antd: ^4.18.8
       dumi: ^1.1.38
       typescript: ^4.5.5
     devDependencies:
       '@ant-design/pro-card': 1.18.33_antd@4.18.8
       '@ant-design/pro-form': 1.54.0_antd@4.18.8
+      '@umijs/plugin-antd': 0.15.0
       antd: 4.18.8
       dumi: 1.1.38_typescript@4.5.5
       typescript: 4.5.5
@@ -690,6 +692,18 @@ packages:
       umi: 3.x
     dependencies:
       umi: 3.5.20
+    dev: true
+
+  /@umijs/plugin-antd/0.15.0:
+    resolution: {integrity: sha512-HnEvox1+jrnlqNg7jpbviCUt6gSgF7o3jE2TjAEC/qMg/a5a5bi/TxpmVouR8sgcIvh7jusmp6VrCK0vvoSGtg==}
+    peerDependencies:
+      umi: 3.x
+    dependencies:
+      antd: 4.18.8
+      semver: 7.3.5
+    transitivePeerDependencies:
+      - react
+      - react-dom
     dev: true
 
   /@umijs/preset-built-in/3.5.20_react-dom@16.14.0+react@16.14.0:
@@ -4351,6 +4365,14 @@ packages:
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
     hasBin: true
+    dev: true
+
+  /semver/7.3.5:
+    resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
     dev: true
 
   /setimmediate/1.0.5:

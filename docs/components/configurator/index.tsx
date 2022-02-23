@@ -3,7 +3,7 @@
  * inline: true
  */
 import { useRef, useState, useEffect } from 'react';
-import { Button } from 'antd';
+import { Button, Alert } from 'antd';
 import Card from '@ant-design/pro-card';
 import ProForm, {
   ProFormText,
@@ -124,6 +124,8 @@ export default () => {
 
   return (
     <div className={styles.main}>
+      <Alert message="注意！注意！注意！本库只为个人研究学习所用，请勿用于违法相关！" type="error" />
+      <br />
       <Card split="vertical" headerBordered bordered style={{ height: '100%'}}>
         <Card colSpan="400px" layout="center">
           <div ref={sealContainerRef} />
