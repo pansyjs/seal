@@ -16,6 +16,8 @@ import ProForm, {
 import { Seal } from '@pansy/seal';
 import styles from './index.less';
 
+import type { ProFormInstance } from '@ant-design/pro-form';
+
 const sealTypeEnum = {
   company: '公司公章',
   personal: '个人私章'
@@ -27,11 +29,48 @@ const sealShapeEnum = {
   ellipse: '方形'
 };
 
+const initialValues = {
+  type: 'company',
+  shape: 'circle',
+  color: 'red',
+  width: 300,
+  height: 300,
+  border: {
+    visible: true,
+    color: 'red',
+    width: 6,
+  },
+  innerBorder: {
+    visible: true,
+    color: 'red',
+    width: 1,
+  },
+  innerLoopLine: {
+    visible: false,
+    color: 'red',
+    width: 2,
+  },
+  fiveStar: {
+    visible: true,
+    color: 'red',
+  },
+  text: {
+    visible: true,
+    color: 'red',
+  },
+  subText: {
+    visible: true,
+    color: 'red',
+  },
+}
+
 export default () => {
   const sealRef = useRef<typeof Seal>();
   const sealContainerRef = useRef<HTMLDivElement>(null);
 
-  const [options, setOptions] = useState<Record<string, any>>({})
+  const formRef = useRef<ProFormInstance>();
+
+  const [options, setOptions] = useState<Record<string, any>>({});
 
   useEffect(
     () => {
@@ -47,8 +86,34 @@ export default () => {
     [sealContainerRef, options]
   );
 
+  const handlerChangeColor = (color: string) => {
+    const form = formRef.current;
+
+    if (!form) return;
+
+    form.setFieldsValue({
+      border: {
+        color: color,
+      },
+      innerBorder: {
+        color: color,
+      },
+      innerLoopLine: {
+        color: color,
+      },
+      fiveStar: {
+        color: color,
+      },
+      text: {
+        color: color,
+      },
+      subText: {
+        color: color,
+      },
+    });
+  }
+
   const handleFormChange = (values: Record<string, any>) => {
-    console.log(values);
     setOptions(values);
   }
 
@@ -72,40 +137,8 @@ export default () => {
             onValuesChange={(_, allValues) => {
               handleFormChange(allValues);
             }}
-            initialValues={{
-              type: 'company',
-              shape: 'circle',
-              color: 'red',
-              width: 300,
-              height: 300,
-              border: {
-                visible: true,
-                color: 'red',
-                width: 6,
-              },
-              innerBorder: {
-                visible: true,
-                color: 'red',
-                width: 1,
-              },
-              innerLoopLine: {
-                visible: false,
-                color: 'red',
-                width: 2,
-              },
-              fiveStar: {
-                visible: true,
-                color: 'red',
-              },
-              text: {
-                visible: true,
-                color: 'red',
-              },
-              subText: {
-                visible: true,
-                color: 'red',
-              },
-            }}
+            formRef={formRef}
+            initialValues={initialValues}
           >
             <ProForm.Group title="基本配置">
               <ProFormSelect
@@ -120,7 +153,13 @@ export default () => {
                 valueEnum={sealShapeEnum}
               />
 
-              <ProFormColorPicker name="color" label="印章颜色" />
+              <ProFormColorPicker
+                name="color"
+                label="印章颜色"
+                fieldProps={{
+                  onChange: handlerChangeColor
+                }}
+              />
 
               <ProFormDigit disabled name="width" label="画布宽度" />
 
