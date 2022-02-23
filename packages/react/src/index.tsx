@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useImperativeHandle } from 'react';
 import { Seal as BaseSeal, Options } from '@pansy/seal';
 
-export const Seal: React.FC<Options> = (props) => {
+export const Seal =  React.forwardRef<{ toBase64: BaseSeal['toBase64']}, Options>((props, ref) => {
   const container = useRef<HTMLDivElement>(null);
   const sealRef = useRef<BaseSeal>();
 
@@ -19,9 +19,21 @@ export const Seal: React.FC<Options> = (props) => {
     }
   }, [container, props]);
 
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        toBase64: (download: boolean) => {
+          return sealRef.current?.toBase64(download);
+        }
+      }
+    },
+    [sealRef.current]
+  )
+
   return (
     <div ref={container} />
   )
-}
+})
 
 export default Seal;
