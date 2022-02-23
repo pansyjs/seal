@@ -3,7 +3,7 @@
  * inline: true
  */
 import { useRef, useState, useEffect } from 'react';
-import { Button, Alert, Space } from 'antd';
+import { Button, Alert, Space, message } from 'antd';
 import Card from '@ant-design/pro-card';
 import ProForm, {
   ProFormText,
@@ -12,6 +12,7 @@ import ProForm, {
   ProFormDigit,
   ProFormSwitch,
 } from '@ant-design/pro-form';
+import { useClipboard } from 'use-clipboard-hook';
 import { Seal } from '@pansy/seal';
 import styles from './index.less';
 
@@ -72,6 +73,7 @@ const initialValues = {
 export default () => {
   const sealRef = useRef<Seal>();
   const sealContainerRef = useRef<HTMLDivElement>(null);
+  const { copy } = useClipboard();
 
   const formRef = useRef<ProFormInstance>();
 
@@ -118,6 +120,15 @@ export default () => {
     });
   }
 
+  const handleCopy = () => {
+    formRef.current?.getFieldsValue();
+
+    if (!formRef.current) return;
+    const values =  formRef.current.getFieldsValue();
+    copy(`const sealConfig= ${JSON.stringify(values)};`);
+    message.success('拷贝成功');
+  }
+
   const handleFormChange = (values: Record<string, any>) => {
     setOptions(values);
   }
@@ -141,7 +152,7 @@ export default () => {
           extra={
             <Space>
               <Button type="link" size="small" onClick={handleDownload}>下载印章</Button>
-              <Button type="link" size="small">拷贝配置</Button>
+              <Button type="link" size="small" onClick={handleCopy}>拷贝配置</Button>
             </Space>
           }
           bodyStyle={{

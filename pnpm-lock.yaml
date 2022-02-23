@@ -23,6 +23,7 @@ importers:
       react-dom: 17.0.2
       tsup: ^5.11.13
       typescript: ^4.5.5
+      use-clipboard-hook: ^1.1.1
     devDependencies:
       '@ant-design/pro-card': 1.18.33_8c3d01db59d16e271d7b36b762b3da3b
       '@ant-design/pro-form': 1.54.0_8c3d01db59d16e271d7b36b762b3da3b
@@ -43,6 +44,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       tsup: 5.11.13_typescript@4.5.5
       typescript: 4.5.5
+      use-clipboard-hook: 1.1.1_react@17.0.2
 
   packages/core:
     specifiers: {}
@@ -15493,6 +15495,16 @@ packages:
     dependencies:
       punycode: 1.3.2
       querystring: 0.2.0
+    dev: true
+
+  /use-clipboard-hook/1.1.1_react@17.0.2:
+    resolution: {integrity: sha512-LXaBI25G1qMlSZMOEI2TRwKbrpok2G/udC9SX+QfljWwL+/PcBPJWTbG1+/FoMerGNF7NBWH2HXzWHLv8C/XbQ==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: ^16.9.0
+    dependencies:
+      react: 17.0.2
+      toggle-selection: 1.0.6
     dev: true
 
   /use-json-comparison/1.0.6_react@17.0.2:
