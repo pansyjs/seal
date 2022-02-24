@@ -10,17 +10,20 @@ export const defaultOpts = {
 export const defaultBorderOpts = {
   visible: true,
   width: 6,
+  radius: 140,
 }
 
 export const defaultInnerBorderOpts = {
   visible: true,
   width: 1,
+  radius: 130,
 }
 
 
 export const defaultInnerLoopLineOpts = {
   visible: false,
   width: 2,
+  radius: 80,
 }
 
 
@@ -34,4 +37,12 @@ export const defaultTextOpts = {
   fontSize: 28,
   fontWeight: 500,
   radius: 100
+};
+
+export const defaultSerNoOpts = {
+  visible: true,
+  fontSize: 12,
+  fontWeight: 500,
+  radius: 100,
+  text: '123456123456'
 };

@@ -9,8 +9,14 @@ export interface TextOptions {
   fontWeight?: string | number;
   /** 文案 */
   text?: string;
-  /** 环绕文案半径 */
+  /** 环绕文案半径，具中心点的距离 */
   radius?: number;
+}
+
+export interface WriteSurroundTextOptions extends Required<TextOptions> {
+  position?: 'top' | 'bottom';
+  /** 绘制开始的角度 */
+  startDegree?: number,
 }
 
 export interface BorderOptions {
@@ -20,6 +26,8 @@ export interface BorderOptions {
   color: string;
   /** 边框的宽度 */
   width?: number;
+  /** 半径，距离中心点的距离 */
+  radius?: number;
   /**
    * 边框的形状, 继承options.shape。
    * 边线和内边线不支持自定义。
@@ -87,6 +95,10 @@ export interface Options {
    * 主文字配置，一般是该公司或结构名称
    */
   text?: TextOptions;
+  /**
+   *
+   */
+  serNo?: TextOptions;
   /**
    * 副文字配置
    */

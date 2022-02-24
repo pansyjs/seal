@@ -4,9 +4,10 @@ import {
   defaultInnerLoopLineOpts,
   defaultFiveStarOpts,
   defaultTextOpts,
+  defaultSerNoOpts,
   defaultInnerBorderOpts,
 } from './config';
-import { getTransparentData } from './utils';
+import { getTransparentData, getFontStr } from './utils';
 
 import type {
   Options,
@@ -14,6 +15,7 @@ import type {
   DrawCircleOptions,
   FiveStar,
   TextOptions,
+  WriteSurroundTextOptions,
 } from './types';
 
 export class Seal {
@@ -28,6 +30,7 @@ export class Seal {
   private innerBorderOpts: Required<BorderOptions>;
 
   private textOpts: Required<TextOptions>;
+  private serNoOpts: Required<TextOptions>;
 
   private fiveStarOpts: Required<FiveStar>;
 
@@ -41,6 +44,7 @@ export class Seal {
       innerLoopLineOpts,
       fiveStarOpts,
       textOpts,
+      serNoOpts,
     } = this.resolveConfig(opts);
 
     canvas.width = options.width ?? defaultOpts.width;
@@ -62,6 +66,7 @@ export class Seal {
     this.innerLoopLineOpts = innerLoopLineOpts;
     this.fiveStarOpts = fiveStarOpts;
     this.textOpts = textOpts;
+    this.serNoOpts = serNoOpts;
 
     this.render();
   }
@@ -74,6 +79,7 @@ export class Seal {
       innerLoopLineOpts,
       fiveStarOpts,
       textOpts,
+      serNoOpts,
     } = this.resolveConfig(opts, false);
 
     this.options = options;
@@ -82,6 +88,7 @@ export class Seal {
     this.innerLoopLineOpts = innerLoopLineOpts;
     this.fiveStarOpts = fiveStarOpts;
     this.textOpts = textOpts;
+    this.serNoOpts = serNoOpts;
 
     this.render();
   }
@@ -110,6 +117,7 @@ export class Seal {
     this.drawFiveStar(this.fiveStarOpts);
 
     this.writeText(this.textOpts);
+    // this.writeSerNo(this.serNoOpts);
   }
 
   /**
@@ -131,8 +139,9 @@ export class Seal {
     if (download) {
       const fileName = `seal_${Math.random().toString(36).slice(-6)}`;
 
-      // @ts-ignore
-      if (window.navigator.msSaveOrOpenBlob) {
+      const msSaveOrOpenBlob = window.navigator['msSaveOrOpenBlob'];
+
+      if (msSaveOrOpenBlob) {
         const bstr = atob(base64.split(',')[1])
         let len = bstr.length
         const u8arr = new Uint8Array(len)
@@ -140,8 +149,7 @@ export class Seal {
           u8arr[len] = bstr.charCodeAt(len)
         }
         const blob = new Blob([u8arr]);
-        // @ts-ignore
-        window.navigator.msSaveOrOpenBlob(blob, fileName + '.png')
+        msSaveOrOpenBlob(blob, fileName + '.png')
       } else {
         const a = document.createElement('a')
         a.href = base64;
@@ -157,9 +165,13 @@ export class Seal {
    * 绘制边线
    */
   private drawBorder(opts: Required<BorderOptions>) {
-    if (!opts.visible) return;
+    if (!opts.visible || !this.canvas) return;
+    const maxRadius = this.canvas.width / 2;
+
     this.drawCircle(opts.width, opts.color, {
-      radius: 140,
+      radius: opts.radius > maxRadius
+        ? maxRadius
+        : opts.radius,
     });
   }
 
@@ -168,9 +180,14 @@ export class Seal {
    * @param opts
    */
   drawInnerBorder(opts: Required<BorderOptions>) {
-    if (!opts.visible) return;
+    if (!opts.visible || !this.canvas) return;
+
+    const maxRadius = this.borderOpts.radius - this.borderOpts.width;
+
     this.drawCircle(opts.width, opts.color, {
-      radius: 130,
+      radius: opts.radius > maxRadius
+        ? maxRadius
+        : opts.radius,
     });
   }
 
@@ -179,9 +196,14 @@ export class Seal {
    * @param opts
    */
   drawInnerLoopLine(opts: Required<BorderOptions>) {
-    if (!opts.visible) return;
+    if (!opts.visible || !this.canvas) return;
+
+    const maxRadius = this.innerBorderOpts.radius - this.innerBorderOpts.width;
+
     this.drawCircle(opts.width, opts.color, {
-      radius: 80,
+      radius: opts.radius > maxRadius
+        ? maxRadius
+        : opts.radius,
     });
   }
 
@@ -224,6 +246,48 @@ export class Seal {
     this.context.restore();
   }
 
+  writeSerNo(opts: Required<TextOptions>) {
+    if (
+      !this.canvas ||
+      !this.context ||
+      !opts.visible ||
+      !opts.text
+    ) return;
+
+    this.context.font = getFontStr({
+      fontWeight: opts.fontWeight,
+      fontSize: opts.fontSize,
+    });
+    this.context.fillStyle = opts.color;
+
+    this.context.translate(...this.centerPoint);
+
+    let count = opts.text.length;
+    const chars = opts.text.split('');
+
+    // 计算文字角度
+    const angle = -1.5 * Math.PI / (3 * (count - 1));
+
+    console.log(90 + (count / 2) * 8);
+
+    const startDegree = (90 + (count / 2) * 6);
+    const startAngle = startDegree * Math.PI / 180;
+
+    console.log(startDegree);
+
+    for (let i = 0; i < count; i++) {
+      const char = chars[i];
+      this.context.rotate(i === 0 ? 90 * Math.PI / 180 : angle);
+      this.context.save();
+      this.context.translate(114, 0);
+      this.context.rotate(270 * (Math.PI / 180));
+      this.context.fillText(char, 0, opts.fontSize / 2);
+      this.context.restore();
+    }
+
+    this.context.restore();
+  }
+
   /**
    * 绘制环绕文案
    * @param opts
@@ -239,8 +303,6 @@ export class Seal {
     const count = opts.text.length;
 
     const angle = -4 * Math.PI / (3 * (count - 1));
-
-    console.log(angle);
 
     const chars = opts.text.split('').reverse();
 
@@ -276,7 +338,7 @@ export class Seal {
     this.context.lineWidth = width;
     this.context.strokeStyle = color;
     this.context.beginPath();
-    this.context.arc(circleCenter.x, circleCenter.y, radius, 0, Math.PI * 2);
+    this.context.arc(circleCenter.x, circleCenter.y, radius - width / 2, 0, Math.PI * 2);
     this.context.stroke();
     this.context.save();
   }
@@ -318,6 +380,11 @@ export class Seal {
       color: options.color,
     }, opts?.text) as Required<TextOptions>;
 
+    const serNoOpts = Object.assign({}, {
+      ...(useDefault ? defaultSerNoOpts : this.serNoOpts),
+      color: options.color,
+    }, opts?.serNo) as Required<TextOptions>;
+
     return {
       options,
       borderOpts,
@@ -325,6 +392,7 @@ export class Seal {
       innerLoopLineOpts,
       fiveStarOpts,
       textOpts,
+      serNoOpts,
     }
   }
 }

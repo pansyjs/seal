@@ -28,3 +28,12 @@ export function getTransparentData(
 
   return emptyBox
 }
+
+export const getFontStr = (
+  opts: {
+    fontWeight: string | number;
+    fontSize: number;
+  }
+) => {
+  return `normal normal ${opts.fontWeight} ${opts.fontSize}px serif`;
+}

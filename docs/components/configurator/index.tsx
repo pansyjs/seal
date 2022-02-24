@@ -11,6 +11,7 @@ import ProForm, {
   ProFormColorPicker,
   ProFormDigit,
   ProFormSwitch,
+  ProFormDependency,
 } from '@ant-design/pro-form';
 import { useClipboard } from 'use-clipboard-hook';
 import { Seal } from '@pansy/seal';
@@ -40,16 +41,19 @@ const initialValues = {
     visible: true,
     color: 'red',
     width: 6,
+    radius: 140,
   },
   innerBorder: {
     visible: true,
     color: 'red',
     width: 1,
+    radius: 130,
   },
   innerLoopLine: {
     visible: false,
     color: 'red',
     width: 2,
+    radius: 80,
   },
   fiveStar: {
     visible: true,
@@ -214,6 +218,13 @@ export default () => {
                 label="线宽"
                 min={1}
               />
+
+              <ProFormDigit
+                name={['border', 'radius']}
+                label="半径"
+                min={100}
+                max={150}
+              />
             </ProForm.Group>
 
             <ProForm.Group title="内边线配置">
@@ -230,6 +241,23 @@ export default () => {
                 label="线宽"
                 min={1}
               />
+              <ProFormDependency
+                name={[
+                  ['border', 'radius'],
+                  ['border', 'width'],
+                ]}
+              >
+                {({ border }) => {
+                  return (
+                    <ProFormDigit
+                      name={['innerBorder', 'radius']}
+                      label="半径"
+                      min={10}
+                      max={border.radius - border.width}
+                    />
+                  )
+                }}
+              </ProFormDependency>
             </ProForm.Group>
 
             <ProForm.Group title="内环线配置">
@@ -245,6 +273,12 @@ export default () => {
                 name={['innerLoopLine', 'width']}
                 label="线宽"
                 min={1}
+              />
+              <ProFormDigit
+                name={['innerLoopLine', 'radius']}
+                label="半径"
+                min={10}
+                max={150}
               />
             </ProForm.Group>
 
