@@ -42,8 +42,9 @@ export const defaultTextOpts = {
 
 export const defaultSerNoOpts = {
   visible: true,
-  fontSize: 12,
-  fontWeight: 500,
-  radius: 100,
-  text: '123456123456'
+  fontSize: 18,
+  fontWeight: 600,
+  radius: 120,
+  text: '01234566667890',
+  startDegree: 45
 };

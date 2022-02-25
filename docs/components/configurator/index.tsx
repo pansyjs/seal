@@ -21,6 +21,7 @@ import {
   defaultInnerBorderOpts,
   defaultBorderOpts,
   defaultFiveStarOpts,
+  defaultSerNoOpts,
   defaultInnerLoopLineOpts,
 } from '@pansy/seal';
 import styles from './index.less';
@@ -61,9 +62,10 @@ const initialValues = {
     text: '超级无敌爱国创新科技有限公司',
     color: defaultOpts.color,
   },
-  subText: {
-    visible: true,
-    color: 'red',
+  serNo: {
+    ...defaultSerNoOpts,
+    text: '01234566667890',
+    color: defaultOpts.color,
   },
 }
 
@@ -335,14 +337,44 @@ export default () => {
               />
             </ProForm.Group>
 
-            <ProForm.Group title="副文字配置">
+            <ProForm.Group title="序列号配置">
               <ProFormSwitch
                 label="是否显示"
-                name={['subText', 'visible']}
+                name={['serNo', 'visible']}
               />
               <ProFormColorPicker
-                name={['subText', 'color']}
+                name={['serNo', 'color']}
                 label="颜色"
+              />
+
+              <ProFormDigit
+                name={['serNo', 'radius']}
+                label="半径"
+                min={10}
+              />
+
+              <ProFormText
+                name={['serNo', 'text']}
+                label="文案"
+              />
+
+              <ProFormDigit
+                name={['serNo', 'fontSize']}
+                label="字体大小"
+                min={10}
+              />
+
+              <ProFormDigit
+                name={['serNo', 'startDegree']}
+                label="字体开始角度"
+                min={0}
+                max={90}
+              />
+
+              <ProFormDigit
+                name={['serNo', 'fontWeight']}
+                label="字体粗细"
+                min={300}
               />
             </ProForm.Group>
           </ProForm>

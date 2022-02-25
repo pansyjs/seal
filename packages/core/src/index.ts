@@ -117,7 +117,7 @@ export class Seal {
     this.drawFiveStar(this.fiveStarOpts);
 
     this.writeText(this.textOpts);
-    // this.writeSerNo(this.serNoOpts);
+    this.writeSerNo(this.serNoOpts);
   }
 
   /**
@@ -217,6 +217,17 @@ export class Seal {
   }
 
   /**
+   * 绘制序列号
+   * @param opts
+   */
+  writeSerNo(opts: Required<TextOptions>) {
+    this.writeSurroundText({
+      ...opts,
+      position: 'bottom',
+    });
+  }
+
+  /**
    * 绘制五角星
    * @param opts
    */
@@ -243,47 +254,6 @@ export class Seal {
     this.context.closePath();
     this.context.stroke();
     this.context.fill();
-    this.context.restore();
-  }
-
-  writeSerNo(opts: Required<TextOptions>) {
-    if (
-      !this.canvas ||
-      !this.context ||
-      !opts.visible ||
-      !opts.text
-    ) return;
-
-    this.context.font = getFontStr({
-      fontWeight: opts.fontWeight,
-      fontSize: opts.fontSize,
-    });
-    this.context.fillStyle = opts.color;
-
-    this.context.translate(...this.centerPoint);
-
-    let count = opts.text.length;
-    const chars = opts.text.split('');
-
-    // 计算文字角度
-    const angle = -1.5 * Math.PI / (3 * (count - 1));
-
-    console.log(90 + (count / 2) * 8);
-
-    const startDegree = (90 + (count / 2) * 6);
-
-    console.log(startDegree);
-
-    for (let i = 0; i < count; i++) {
-      const char = chars[i];
-      this.context.rotate(i === 0 ? 90 * Math.PI / 180 : angle);
-      this.context.save();
-      this.context.translate(114, 0);
-      this.context.rotate(270 * (Math.PI / 180));
-      this.context.fillText(char, 0, opts.fontSize / 2);
-      this.context.restore();
-    }
-
     this.context.restore();
   }
 
@@ -315,18 +285,20 @@ export class Seal {
     const count = text.length;
     const chars = text.split('').reverse();
 
-    const textDegree = -(startDegree * 2 + 180) / (count - 1);
+    const textDegree = position === 'top'
+      ? -(startDegree * 2 + 180) / (count - 1)
+      : (startDegree * 2) / (count - 1)
 
     for (let i = 0; i < count; i++){
       const char = chars[i];
 
-      this.context.rotate(( i === 0 ? startDegree : textDegree) * Math.PI / 180);
+      this.context.rotate((i === 0 ? startDegree : textDegree) * Math.PI / 180);
 
       const { width } = this.context.measureText(char)
 
       this.context.save();
       this.context.translate(radius - width / 2, 0);
-      this.context.rotate(Math.PI / 2);
+      this.context.rotate((position === 'top' ? 90 : -90) * Math.PI / 180);
       this.context.fillText(char, 0, 5);
       this.context.restore();
     }
