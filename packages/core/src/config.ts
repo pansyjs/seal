@@ -34,9 +34,10 @@ export const defaultFiveStarOpts = {
 
 export const defaultTextOpts = {
   visible: true,
-  fontSize: 28,
-  fontWeight: 500,
-  radius: 100
+  fontSize: 30,
+  fontWeight: 600,
+  radius: 120,
+  startDegree: 25
 };
 
 export const defaultSerNoOpts = {
