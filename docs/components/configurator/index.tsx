@@ -23,6 +23,7 @@ import {
   defaultFiveStarOpts,
   defaultSerNoOpts,
   defaultSubTextOpts,
+  defaultCenterTextOpts,
   defaultInnerLoopLineOpts,
 } from '@pansy/seal';
 import styles from './index.less';
@@ -66,6 +67,11 @@ const initialValues = {
   subText: {
     ...defaultSubTextOpts,
     text: '合同专用章',
+    color: defaultOpts.color,
+  },
+  centerText: {
+    ...defaultCenterTextOpts,
+    text: '测试文案',
     color: defaultOpts.color,
   },
   serNo: {
@@ -371,6 +377,34 @@ export default () => {
                 name={['subText', 'distance']}
                 label="距离"
                 tooltip="距离中心点的距离"
+                min={10}
+              />
+
+              <ProFormDigit
+                name={['subText', 'fontWeight']}
+                label="字体粗细"
+                min={300}
+              />
+            </ProForm.Group>
+
+            <ProForm.Group title="中心文字配置">
+              <ProFormSwitch
+                label="是否显示"
+                name={['centerText', 'visible']}
+              />
+              <ProFormColorPicker
+                name={['centerText', 'color']}
+                label="颜色"
+              />
+
+              <ProFormText
+                name={['centerText', 'text']}
+                label="文案"
+              />
+
+              <ProFormDigit
+                name={['centerText', 'fontSize']}
+                label="字体大小"
                 min={10}
               />
 

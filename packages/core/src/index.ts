@@ -6,6 +6,7 @@ import {
   defaultTextOpts,
   defaultSerNoOpts,
   defaultSubTextOpts,
+  defaultCenterTextOpts,
   defaultInnerBorderOpts,
 } from './config';
 import { getTransparentData, getFontStr } from './utils';
@@ -32,6 +33,7 @@ export class Seal {
 
   private textOpts: Required<TextOptions>;
   private subTextOpts: Required<TextOptions>;
+  private centerTextOpts: Required<TextOptions>;
   private serNoOpts: Required<TextOptions>;
 
   private fiveStarOpts: Required<FiveStar>;
@@ -47,6 +49,7 @@ export class Seal {
       fiveStarOpts,
       textOpts,
       serNoOpts,
+      centerTextOpts,
       subTextOpts,
     } = this.resolveConfig(opts);
 
@@ -71,6 +74,7 @@ export class Seal {
     this.textOpts = textOpts;
     this.subTextOpts = subTextOpts;
     this.serNoOpts = serNoOpts;
+    this.centerTextOpts = centerTextOpts;
 
     this.render();
   }
@@ -85,6 +89,7 @@ export class Seal {
       textOpts,
       subTextOpts,
       serNoOpts,
+      centerTextOpts,
     } = this.resolveConfig(opts, false);
 
     this.options = options;
@@ -95,6 +100,7 @@ export class Seal {
     this.textOpts = textOpts;
     this.subTextOpts = subTextOpts;
     this.serNoOpts = serNoOpts;
+    this.centerTextOpts = centerTextOpts;
 
     this.render();
   }
@@ -124,6 +130,7 @@ export class Seal {
 
     this.writeText(this.textOpts);
     this.writeSubText(this.subTextOpts);
+    this.writeCenterText(this.centerTextOpts);
     this.writeSerNo(this.serNoOpts);
   }
 
@@ -232,6 +239,17 @@ export class Seal {
   }
 
   /**
+   * 绘制中心文字
+   * @param opts
+   */
+  writeCenterText(opts: Required<TextOptions>) {
+    this.writeHorizontalText({
+      ...opts,
+      textBaseline: 'middle',
+    });
+  }
+
+  /**
    * 绘制序列号
    * @param opts
    */
@@ -282,8 +300,9 @@ export class Seal {
     color,
     fontWeight,
     fontSize,
-    distance,
-  }: Required<TextOptions>) {
+    distance = 0,
+    textBaseline = 'bottom'
+  }: Required<TextOptions> & { textBaseline?: CanvasTextBaseline }) {
     if (!this.canvas || !this.context || !visible || !text) return;
 
     this.context.font = getFontStr({
@@ -292,7 +311,7 @@ export class Seal {
     });
     this.context.fillStyle = color;
 
-    this.context.textBaseline = 'bottom';
+    this.context.textBaseline = textBaseline;
     this.context.textAlign = 'center';
 
     this.context.lineWidth = 1;
@@ -426,6 +445,11 @@ export class Seal {
       color: options.color,
     }, opts?.serNo) as Required<TextOptions>;
 
+    const centerTextOpts = Object.assign({}, {
+      ...(useDefault ? defaultCenterTextOpts : this.centerTextOpts),
+      color: options.color,
+    }, opts?.centerText) as Required<TextOptions>;
+
     return {
       options,
       borderOpts,
@@ -435,6 +459,7 @@ export class Seal {
       textOpts,
       subTextOpts,
       serNoOpts,
+      centerTextOpts,
     }
   }
 }
@@ -448,5 +473,6 @@ export {
   defaultSerNoOpts,
   defaultSubTextOpts,
   defaultInnerBorderOpts,
+  defaultCenterTextOpts,
 };
 export type { Options } from './types';

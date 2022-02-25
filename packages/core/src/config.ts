@@ -47,6 +47,12 @@ export const defaultSubTextOpts = {
   distance: 75,
 };
 
+export const defaultCenterTextOpts = {
+  visible: false,
+  fontSize: 24,
+  fontWeight: 600,
+};
+
 export const defaultSerNoOpts = {
   visible: true,
   fontSize: 18,
