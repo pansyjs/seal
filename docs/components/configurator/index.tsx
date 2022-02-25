@@ -14,7 +14,15 @@ import ProForm, {
   ProFormDependency,
 } from '@ant-design/pro-form';
 import { useClipboard } from 'use-clipboard-hook';
-import { Seal } from '@pansy/seal';
+import {
+  Seal,
+  defaultOpts,
+  defaultTextOpts,
+  defaultInnerBorderOpts,
+  defaultBorderOpts,
+  defaultFiveStarOpts,
+  defaultInnerLoopLineOpts,
+} from '@pansy/seal';
 import styles from './index.less';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
@@ -31,42 +39,27 @@ const sealShapeEnum = {
 };
 
 const initialValues = {
-  type: 'company',
-  shape: 'circle',
-  color: 'red',
-  width: 300,
-  height: 300,
-  showTransparent: true,
+  ...defaultOpts,
   border: {
-    visible: true,
-    color: 'red',
-    width: 6,
-    radius: 140,
+    ...defaultBorderOpts,
+    color: defaultOpts.color,
   },
   innerBorder: {
-    visible: true,
-    color: 'red',
-    width: 1,
-    radius: 130,
+    ...defaultInnerBorderOpts,
+    color: defaultOpts.color,
   },
   innerLoopLine: {
-    visible: false,
-    color: 'red',
-    width: 2,
-    radius: 80,
+    ...defaultInnerLoopLineOpts,
+    color: defaultOpts.color,
   },
   fiveStar: {
-    visible: true,
-    color: 'red',
-    size: 30,
+    ...defaultFiveStarOpts,
+    color: defaultOpts.color,
   },
   text: {
-    visible: true,
-    color: 'red',
+    ...defaultTextOpts,
     text: '超级无敌爱国创新科技有限公司',
-    fontSize: 28,
-    fontWeight: 500,
-    radius: 100,
+    color: defaultOpts.color,
   },
   subText: {
     visible: true,
@@ -194,6 +187,7 @@ export default () => {
               <ProFormColorPicker
                 name="color"
                 label="印章颜色"
+                tooltip="改变颜色会同步修改以下所有颜色"
                 fieldProps={{
                   onChange: handlerChangeColor
                 }}
@@ -221,6 +215,7 @@ export default () => {
 
               <ProFormDigit
                 name={['border', 'radius']}
+                tooltip="半径不能超过画布宽高，并且包含线条宽度"
                 label="半径"
                 min={100}
                 max={150}
@@ -324,6 +319,13 @@ export default () => {
                 name={['text', 'fontSize']}
                 label="字体大小"
                 min={10}
+              />
+
+              <ProFormDigit
+                name={['text', 'startDegree']}
+                label="字体开始角度"
+                min={0}
+                max={90}
               />
 
               <ProFormDigit
