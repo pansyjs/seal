@@ -11,12 +11,12 @@ export interface TextOptions {
   text?: string;
   /** 环绕文案半径，具中心点的距离 */
   radius?: number;
+  /** 绘制开始的角度 */
+  startDegree?: number,
 }
 
 export interface WriteSurroundTextOptions extends Required<TextOptions> {
   position?: 'top' | 'bottom';
-  /** 绘制开始的角度 */
-  startDegree?: number,
 }
 
 export interface BorderOptions {

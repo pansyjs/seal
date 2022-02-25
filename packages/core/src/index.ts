@@ -271,7 +271,6 @@ export class Seal {
     console.log(90 + (count / 2) * 8);
 
     const startDegree = (90 + (count / 2) * 6);
-    const startAngle = startDegree * Math.PI / 180;
 
     console.log(startDegree);
 
@@ -292,34 +291,55 @@ export class Seal {
    * 绘制环绕文案
    * @param opts
    */
-  writeSurroundText(opts: Required<TextOptions>) {
-    if (!this.canvas || !this.context || !opts.visible || !opts.text) return;
+  writeSurroundText({
+    visible,
+    text,
+    color,
+    radius,
+    fontSize,
+    fontWeight,
+    position = 'top',
+    startDegree = 25,
+  }: WriteSurroundTextOptions) {
+    if (!this.canvas || !this.context || !visible || !text) return;
 
-    this.context.font = `normal normal ${opts.fontWeight} ${opts.fontSize}px serif`;
-    this.context.fillStyle = opts.color;
+    this.context.font = getFontStr({
+      fontWeight: fontWeight,
+      fontSize: fontSize,
+    });
+    this.context.fillStyle = color;
 
+    this.context.textAlign ='center';
     this.context.translate(...this.centerPoint);
 
-    const count = opts.text.length;
+    const count = text.length;
+    const chars = text.split('').reverse();
 
-    const angle = -4 * Math.PI / (3 * (count - 1));
-
-    const chars = opts.text.split('').reverse();
+    const textDegree = -(startDegree * 2 + 180) / (count - 1);
 
     for (let i = 0; i < count; i++){
-      let char = chars[i];
+      const char = chars[i];
 
-      this.context.rotate(i === 0 ? (0.7 * Math.PI / 6.1): angle);
+      this.context.rotate(( i === 0 ? startDegree : textDegree) * Math.PI / 180);
+
+      const { width } = this.context.measureText(char)
+
       this.context.save();
-      this.context.translate(opts.radius, 0);
+      this.context.translate(radius - width / 2, 0);
       this.context.rotate(Math.PI / 2);
       this.context.fillText(char, 0, 5);
       this.context.restore();
     }
+
+    this.context.restore();
   }
 
   /**
    * 绘制圆形
+   * @param width 线条的宽度
+   * @param color 线条的颜色
+   * @param params 圆半径和圆心配置
+   * @returns
    */
   drawCircle(
     width: number,
@@ -397,4 +417,13 @@ export class Seal {
   }
 }
 
+export {
+  defaultOpts,
+  defaultBorderOpts,
+  defaultInnerLoopLineOpts,
+  defaultFiveStarOpts,
+  defaultTextOpts,
+  defaultSerNoOpts,
+  defaultInnerBorderOpts,
+};
 export type { Options } from './types';
