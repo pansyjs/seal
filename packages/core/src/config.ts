@@ -40,6 +40,13 @@ export const defaultTextOpts = {
   startDegree: 25
 };
 
+export const defaultSubTextOpts = {
+  visible: true,
+  fontSize: 24,
+  fontWeight: 600,
+  distance: 75,
+};
+
 export const defaultSerNoOpts = {
   visible: true,
   fontSize: 18,

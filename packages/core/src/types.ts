@@ -9,6 +9,8 @@ export interface TextOptions {
   fontWeight?: string | number;
   /** 文案 */
   text?: string;
+  /** 距离中心点的距离 */
+  distance?: number;
   /** 环绕文案半径，具中心点的距离 */
   radius?: number;
   /** 绘制开始的角度 */

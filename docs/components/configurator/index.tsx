@@ -22,6 +22,7 @@ import {
   defaultBorderOpts,
   defaultFiveStarOpts,
   defaultSerNoOpts,
+  defaultSubTextOpts,
   defaultInnerLoopLineOpts,
 } from '@pansy/seal';
 import styles from './index.less';
@@ -60,6 +61,11 @@ const initialValues = {
   text: {
     ...defaultTextOpts,
     text: '超级无敌爱国创新科技有限公司',
+    color: defaultOpts.color,
+  },
+  subText: {
+    ...defaultSubTextOpts,
+    text: '合同专用章',
     color: defaultOpts.color,
   },
   serNo: {
@@ -114,6 +120,9 @@ export default () => {
         color: color,
       },
       subText: {
+        color: color,
+      },
+      serNo: {
         color: color,
       },
     });
@@ -332,6 +341,41 @@ export default () => {
 
               <ProFormDigit
                 name={['text', 'fontWeight']}
+                label="字体粗细"
+                min={300}
+              />
+            </ProForm.Group>
+
+            <ProForm.Group title="副文字配置">
+              <ProFormSwitch
+                label="是否显示"
+                name={['subText', 'visible']}
+              />
+              <ProFormColorPicker
+                name={['subText', 'color']}
+                label="颜色"
+              />
+
+              <ProFormText
+                name={['subText', 'text']}
+                label="文案"
+              />
+
+              <ProFormDigit
+                name={['subText', 'fontSize']}
+                label="字体大小"
+                min={10}
+              />
+
+              <ProFormDigit
+                name={['subText', 'distance']}
+                label="距离"
+                tooltip="距离中心点的距离"
+                min={10}
+              />
+
+              <ProFormDigit
+                name={['subText', 'fontWeight']}
                 label="字体粗细"
                 min={300}
               />

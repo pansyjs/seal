@@ -5,6 +5,7 @@ import {
   defaultFiveStarOpts,
   defaultTextOpts,
   defaultSerNoOpts,
+  defaultSubTextOpts,
   defaultInnerBorderOpts,
 } from './config';
 import { getTransparentData, getFontStr } from './utils';
@@ -30,6 +31,7 @@ export class Seal {
   private innerBorderOpts: Required<BorderOptions>;
 
   private textOpts: Required<TextOptions>;
+  private subTextOpts: Required<TextOptions>;
   private serNoOpts: Required<TextOptions>;
 
   private fiveStarOpts: Required<FiveStar>;
@@ -45,6 +47,7 @@ export class Seal {
       fiveStarOpts,
       textOpts,
       serNoOpts,
+      subTextOpts,
     } = this.resolveConfig(opts);
 
     canvas.width = options.width ?? defaultOpts.width;
@@ -66,6 +69,7 @@ export class Seal {
     this.innerLoopLineOpts = innerLoopLineOpts;
     this.fiveStarOpts = fiveStarOpts;
     this.textOpts = textOpts;
+    this.subTextOpts = subTextOpts;
     this.serNoOpts = serNoOpts;
 
     this.render();
@@ -79,6 +83,7 @@ export class Seal {
       innerLoopLineOpts,
       fiveStarOpts,
       textOpts,
+      subTextOpts,
       serNoOpts,
     } = this.resolveConfig(opts, false);
 
@@ -88,6 +93,7 @@ export class Seal {
     this.innerLoopLineOpts = innerLoopLineOpts;
     this.fiveStarOpts = fiveStarOpts;
     this.textOpts = textOpts;
+    this.subTextOpts = subTextOpts;
     this.serNoOpts = serNoOpts;
 
     this.render();
@@ -117,6 +123,7 @@ export class Seal {
     this.drawFiveStar(this.fiveStarOpts);
 
     this.writeText(this.textOpts);
+    this.writeSubText(this.subTextOpts);
     this.writeSerNo(this.serNoOpts);
   }
 
@@ -217,6 +224,14 @@ export class Seal {
   }
 
   /**
+   * 绘制副文字
+   * @param opts
+   */
+  writeSubText(opts: Required<TextOptions>) {
+    this.writeHorizontalText(opts);
+  }
+
+  /**
    * 绘制序列号
    * @param opts
    */
@@ -258,6 +273,34 @@ export class Seal {
   }
 
   /**
+   * 绘制水平文案
+   * @param opts
+   */
+  writeHorizontalText({
+    visible,
+    text,
+    color,
+    fontWeight,
+    fontSize,
+    distance,
+  }: Required<TextOptions>) {
+    if (!this.canvas || !this.context || !visible || !text) return;
+
+    this.context.font = getFontStr({
+      fontWeight,
+      fontSize,
+    });
+    this.context.fillStyle = color;
+
+    this.context.textBaseline = 'bottom';
+    this.context.textAlign = 'center';
+
+    this.context.lineWidth = 1;
+
+    this.context.fillText(text, this.centerPoint[0], this.centerPoint[1] + distance);
+}
+
+  /**
    * 绘制环绕文案
    * @param opts
    */
@@ -280,6 +323,7 @@ export class Seal {
     this.context.fillStyle = color;
 
     this.context.textAlign ='center';
+    this.context.textBaseline = 'alphabetic';
     this.context.translate(...this.centerPoint);
 
     const count = text.length;
@@ -372,6 +416,11 @@ export class Seal {
       color: options.color,
     }, opts?.text) as Required<TextOptions>;
 
+    const subTextOpts = Object.assign({}, {
+      ...(useDefault ? defaultSubTextOpts : this.subTextOpts),
+      color: options.color,
+    }, opts?.subText) as Required<TextOptions>;
+
     const serNoOpts = Object.assign({}, {
       ...(useDefault ? defaultSerNoOpts : this.serNoOpts),
       color: options.color,
@@ -384,6 +433,7 @@ export class Seal {
       innerLoopLineOpts,
       fiveStarOpts,
       textOpts,
+      subTextOpts,
       serNoOpts,
     }
   }
@@ -396,6 +446,7 @@ export {
   defaultFiveStarOpts,
   defaultTextOpts,
   defaultSerNoOpts,
+  defaultSubTextOpts,
   defaultInnerBorderOpts,
 };
 export type { Options } from './types';
