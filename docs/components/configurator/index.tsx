@@ -391,6 +391,7 @@ export default () => {
               <ProFormSwitch
                 label="是否显示"
                 name={['centerText', 'visible']}
+                tooltip="中心文字与五角星请不要同时显示"
               />
               <ProFormColorPicker
                 name={['centerText', 'color']}
