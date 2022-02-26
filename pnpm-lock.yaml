@@ -51,7 +51,7 @@ importers:
 
   packages/react:
     specifiers:
-      '@pansy/seal': 0.1.3
+      '@pansy/seal': 0.1.4
     dependencies:
       '@pansy/seal': link:../core
 
